@@ -10,9 +10,13 @@
 <body>
 	<div id="app-7">
 		<ol>
-			<!-- Now we provide each todo-item with the todo object    -->
-			<!-- it's representing, so that its content can be dynamic -->
-			<todo-item v-for="item in groceryList" v-bind:todo="item"></todo-item>
+			<!--
+					Now we provide each todo-item with the todo object
+					it's representing, so that its content can be dynamic.
+					We also need to provide each component with a "key".
+				  -->
+			<todo-item v-for="item in groceryList" v-bind:todo="item" v-bind:key="item.id">
+			</todo-item>
 		</ol>
 	</div>
 	<script src='./vue.js'></script>
@@ -24,14 +28,13 @@
 			props: ['todo'],
 			template: '<li>{{ todo.text }}</li>'
 		})
-
 		var app7 = new Vue({
 			el: '#app-7',
 			data: {
 				groceryList: [
-					{ text: 'Vegetables' },
-					{ text: 'Cheese' },
-					{ text: 'Whatever else humans are supposed to eat' }
+					{ id: 0, text: 'Vegetables' },
+					{ id: 1, text: 'Cheese' },
+					{ id: 2, text: 'Whatever else humans are supposed to eat' }
 				]
 			}
 		})

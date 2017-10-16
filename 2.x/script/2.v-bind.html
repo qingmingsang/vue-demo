@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang='zh'>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style></style>
+</head>
+
+<body>
+	<div id="app-2">
+		<span v-bind:title="message">
+			Hover your mouse over me for a few seconds to see my dynamically bound title!
+		</span>
+		<div v-bind:id="dynamicId">12</div>
+		<button v-bind:disabled="isButtonDisabled">Button</button>
+		{{ number + 1 }} {{ ok ? 'YES' : 'NO' }} {{ msg.split('').reverse().join('') }}
+		<div v-bind:id="'list-' + number">list-2</div>
+		<!-- this is a statement, not an expression: -->
+		<!-- {{ var a = 1 }} -->
+		<!-- flow control won't work either, use ternary expressions -->
+		<!-- {{ if (ok) { return message } }} -->
+		<!-- full syntax -->
+		<a v-bind:href="url">full syntax</a>
+		<!-- shorthand -->
+		<a :href="url">shorthand</a>
+	</div>
+	<script src='./vue.js'></script>
+	<script>
+		var app2 = new Vue({
+			el: '#app-2',
+			data: {
+				message: 'You loaded this page on ' + new Date().toLocaleString(),
+				dynamicId: '12',
+				isButtonDisabled: true,
+				number: 2,
+				ok: false,
+				msg: 'r u ok?',
+				url: '#'
+			}
+		})
+	</script>
+</body>
+
+</html>

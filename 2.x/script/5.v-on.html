@@ -11,6 +11,11 @@
 	<div id="app-5">
 		<p>{{ message }}</p>
 		<button v-on:click="reverseMessage">Reverse Message</button>
+		<form v-on:submit.prevent="onSubmit">click form</form>
+		<!-- full syntax -->
+		<a v-on:click="doSomething">full syntax</a>
+		<!-- shorthand -->
+		<a @click="doSomething">shorthand</a>
 	</div>
 	<script src='./vue.js'></script>
 	<script>
@@ -22,6 +27,12 @@
 			methods: {
 				reverseMessage: function () {
 					this.message = this.message.split('').reverse().join('')
+				},
+				onSubmit: function () {
+					console.log('submit')
+				},
+				doSomething: function () {
+					console.log('doSomething')
 				}
 			}
 		})

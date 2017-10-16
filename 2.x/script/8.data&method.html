@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang='zh'>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style></style>
+</head>
+
+<body>
+	<div id="app">
+	</div>
+	<script src='./vue.js'></script>
+	<script>
+		// Our data object
+		var data = { a: 1 }
+		// The object is added to a Vue instance
+		var vm = new Vue({
+			data: data
+		})
+		// These reference the same object!
+		console.log(vm.a === data.a) // => true
+		// Setting the property on the instance
+		// also affects the original data
+		vm.a = 2
+		console.log(data.a) // => 2
+		// ... and vice-versa
+		data.a = 3
+		console.log(vm.a) // => 3
+
+		var data2 = { a: 1 }
+		var vm2 = new Vue({
+			el: '#app',
+			data: data2
+		})
+		console.log(vm2.$data === data2) // => true
+		console.log(vm2.$el === document.getElementById('app')) // => true
+		// $watch 是一个实例方法
+		vm2.$watch('a', function (newValue, oldValue) {
+			// 这个回调将在 `vm.a` 改变后调用
+			console.log('new', newValue)//xx
+			console.log('old', oldValue)//1
+		})
+		vm2.a = 'xx';
+	</script>
+</body>
+
+</html>
