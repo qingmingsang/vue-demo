@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang='zh'>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style></style>
+</head>
+
+<body>
+	<div id="app">
+		<my-component class="baz boo"></my-component>
+	</div>
+	<script src='./vue.js'></script>
+	<script>
+		Vue.component('my-component', {
+			template: '<p class="foo bar">Hi</p>'
+		})
+		var app = new Vue({
+			el: '#app',
+			data: {
+				isActive: true,
+				activeClass: 'active',
+				errorClass: 'text-danger'
+			}
+		})
+	</script>
+</body>
+
+</html>

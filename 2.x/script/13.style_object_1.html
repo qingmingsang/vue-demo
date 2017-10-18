@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang='zh'>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style></style>
+</head>
+
+<body>
+	<div id="app" :style="{ color: activeColor, fontSize: fontSize + 'px' }">
+		hi
+	</div>
+	<script src='./vue.js'></script>
+	<script>
+		var app = new Vue({
+			el: '#app',
+			data: {
+				activeColor: 'red',
+				fontSize: 30
+			}
+		})
+	</script>
+</body>
+
+</html>

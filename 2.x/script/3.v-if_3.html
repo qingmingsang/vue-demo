@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang='zh'>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style></style>
+</head>
+
+<body>
+	<div id="app">
+		<div v-if="Math.random() > 0.7">
+			大于0.7
+		</div>
+		<div v-else-if="Math.random() > 0.4">
+			大于0.4
+		</div>
+		<div v-else>
+			小于0.4
+		</div>
+	</div>
+	<script src='./vue.js'></script>
+	<script>
+		var app = new Vue({
+			el: '#app',
+			data: {
+			}
+		})
+	</script>
+</body>
+
+</html>

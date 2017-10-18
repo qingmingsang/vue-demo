@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang='zh'>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style></style>
+</head>
+
+<body>
+	<div id="app" class="static" :class="[{ act: isActive }, errorClass]">
+	</div>
+	<script src='./vue.js'></script>
+	<script>
+		var app = new Vue({
+			el: '#app',
+			data: {
+				isActive: true,
+				errorClass: 'text-danger'
+			}
+		})
+	</script>
+</body>
+
+</html>

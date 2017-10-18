@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang='zh'>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style></style>
+</head>
+
+<body>
+	<div id="app" :style="[baseStyles, overridingStyles]">
+		hi
+	</div>
+	<script src='./vue.js'></script>
+	<script>
+		var app = new Vue({
+			el: '#app',
+			data: {
+				baseStyles: {
+					color: 'red',
+					fontSize: '30px'
+				},
+				overridingStyles: {
+					color: 'blue',
+					fontSize: '13px'
+				}
+			}
+		})
+	</script>
+</body>
+
+</html>
