@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang='zh'>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style></style>
+</head>
+
+<body>
+	<div id="app">
+		<div v-for="item in items" :key="item.id">
+			{{ item.message }}
+		</div>
+	</div>
+	<script src='./vue.js'></script>
+	<script>
+		var app = new Vue({
+			el: '#app',
+			data: {
+				items: [
+					{ id: 1, message: 'Foo' },
+					{ id: 2, message: 'Bar' }
+				]
+			}
+		});
+		app.items = app.items.filter(function (item) {
+			return item.message.match(/Foo/)
+		});
+	</script>
+</body>
+
+</html>

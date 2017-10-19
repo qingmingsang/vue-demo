@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang='zh'>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style></style>
+</head>
+
+<body>
+	<div id="app">
+		<div v-for="item in items" :key="item.id">
+			{{ item.message }}
+		</div>
+	</div>
+	<script src='./vue.js'></script>
+	<script>
+		var app = new Vue({
+			el: '#app',
+			data: {
+				items: [
+					{ id: 1, message: 'Foo' },
+					{ id: 2, message: 'Bar' }
+				]
+			}
+		});
+		Vue.set(app.items, 0, { id: 1, message: 'zero' });
+		app.items.splice(1, 1, { id: 1, message: 'one' });
+		Vue.set(app.items, 2, { id: 3, message: 'three' });
+	</script>
+</body>
+
+</html>

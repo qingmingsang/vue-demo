@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang='zh'>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style></style>
+</head>
+
+<body>
+	<div id="app">
+		<li v-for="todo in todos" v-if="!todo.isComplete">
+			{{ todo.task }}
+		</li>
+		<ul v-if="todos.length">
+			<li v-for="todo in todos">
+				{{ todo.task }}
+			</li>
+		</ul>
+		<p v-else>No todos left!</p>
+	</div>
+	<script src='./vue.js'></script>
+	<script>
+		var app = new Vue({
+			el: '#app',
+			data: {
+				todos: [
+					{ isComplete: false, task: 'sleep' },
+					{ isComplete: true, task: 'eat' },
+					{ isComplete: true, task: 'study' },
+				]
+			}
+		});
+	</script>
+</body>
+
+</html>

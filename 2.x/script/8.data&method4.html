@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang='zh'>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style></style>
+</head>
+
+<body>
+	<div id="app">
+		<div v-if="userProfile.name">
+			{{ userProfile.name }}
+		</div>
+		<div v-if="userProfile.age">
+			{{ userProfile.age }}
+		</div>
+		<button @click='showSex'>showSex</button>
+		<div v-if="userProfile.sex">
+			{{ userProfile.sex }}
+		</div>
+		<button @click='assign'>assign</button>
+		<div v-if="userProfile.favoriteColor">
+			{{ userProfile.favoriteColor }}
+		</div>
+	</div>
+	<script src='./vue.js'></script>
+	<script>
+		var vm = new Vue({
+			el: '#app',
+			data: {
+				a: 1,
+				userProfile: {
+					name: 'Anika'
+				}
+			},
+			methods: {
+				showSex: function () {
+					this.$set(this.userProfile, 'sex', 'man');
+				},
+				assign: function () {
+					//这种好像不是ractive的？
+					// Object.assign(this.userProfile, {
+					// 	age: 38,
+					// 	favoriteColor: 'Vue Green'
+					// })
+					this.userProfile = Object.assign({}, this.userProfile, {
+						age: 39,
+						favoriteColor: 'Vue Green'
+					})
+					console.log(this.userProfile)
+				},
+			}
+		})
+		// `vm.a` is now reactive
+		vm.b = 2
+		// `vm.b` is NOT reactive
+		Vue.set(vm.userProfile, 'age', 27);
+	</script>
+</body>
+
+</html>

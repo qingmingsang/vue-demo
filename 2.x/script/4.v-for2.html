@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang='zh'>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style></style>
+</head>
+
+<body>
+	<div id="app">
+		<ol>
+			<li v-for="(item, index) in items">
+				{{ parentMessage }} - {{ index }} - {{ item.message }}
+			</li>
+		</ol>
+		<div v-for="item of items">
+			{{ item.message }}
+		</div>
+	</div>
+	<script src='./vue.js'></script>
+	<script>
+		var app4 = new Vue({
+			el: '#app',
+			data: {
+				parentMessage: 'Parent',
+				items: [
+					{ message: 'Foo' },
+					{ message: 'Bar' }
+				]
+			}
+		});
+	</script>
+</body>
+
+</html>

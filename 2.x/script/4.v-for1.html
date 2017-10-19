@@ -8,7 +8,7 @@
 </head>
 
 <body>
-	<div id="app-4">
+	<div id="app">
 		<ol>
 			<li v-for="todo in todos">
 				{{ todo.text }}
@@ -18,7 +18,7 @@
 	<script src='./vue.js'></script>
 	<script>
 		var app4 = new Vue({
-			el: '#app-4',
+			el: '#app',
 			data: {
 				todos: [
 					{ text: 'Learn JavaScript' },
