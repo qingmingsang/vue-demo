@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang='zh'>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style></style>
+</head>
+
+<body>
+	<div id="example-1">
+		<button @click="counter += 1">增加 1</button>
+		<p>这个按钮被点击了 {{ counter }} 次。</p>
+		<!-- `greet` is the name of a method defined below -->
+		<button v-on:click="greet">Greet</button>
+		<button v-on:click="say('hi')">Say hi</button>
+		<button v-on:click="say('what')">Say what</button>
+	</div>
+	<script src='./vue.js'></script>
+	<script>
+		var example1 = new Vue({
+			el: '#example-1',
+			data: {
+				counter: 0,
+				name: 'Vue.js'
+			},
+			// define methods under the `methods` object
+			methods: {
+				greet: function (event) {
+					// `this` inside methods points to the Vue instance
+					console.log('Hello ' + this.name + '!')
+					// `event` is the native DOM event
+					if (event) {
+						console.log(event.target.tagName)
+					}
+				},
+				say: function (message) {
+					console.log(message)
+				}
+			}
+		})
+		// you can invoke methods in JavaScript too
+		example1.greet() // => 'Hello Vue.js!'
+	</script>
+</body>
+
+</html>

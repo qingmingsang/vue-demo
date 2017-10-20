@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang='zh'>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style></style>
+</head>
+
+<body>
+	<div id="app1">
+		<p>{{ message }}</p>
+		<p v-once>{{ message }}</p>
+		<input v-model=" message " placeholder="edit me ">
+		<div v-html="rh "></div>
+	</div>
+	<div id="app2">
+		<span>Multiline message is:</span>
+		<p style="white-space: pre-line; ">{{ message }}</p>
+		<br>
+		<textarea v-model="message " placeholder="add multiple lines "></textarea>
+	</div>
+	<script src='./vue.js'></script>
+	<script>
+		var app1 = new Vue({
+			el: '#app1',
+			data: {
+				message: 'Hello Vue!',
+				rh: '<p>raw html</p>'
+			},
+
+		})
+		var app2 = new Vue({
+			el: '#app2',
+			data: {
+				message: 'Hello Vue!'
+			},
+		})
+	</script>
+</body>
+
+</html>

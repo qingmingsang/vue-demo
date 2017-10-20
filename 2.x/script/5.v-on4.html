@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang='zh'>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style></style>
+</head>
+
+<body>
+	<div id="example-2">
+		<!-- only call vm.submit() when the keyCode is 13 -->
+		<input v-on:keyup.13="submit">
+		<!-- same as above -->
+		<input @keyup.enter="submit">
+		<input @keyup.f2="submit">
+		<input @keyup.page-down="submit">
+		<!-- Alt + C -->
+		<input @keyup.alt.67="submit">
+		<!-- Ctrl + Click -->
+		<div @click.ctrl="submit">Do something</div>
+		<!-- this will fire even if Alt or Shift is also pressed -->
+		<button @click.ctrl="submit">A</button>
+		<!-- this will only fire when only Ctrl is pressed -->
+		<button @click.ctrl.exact="submit">A</button>
+	</div>
+	<script src='./vue.js'></script>
+	<script>
+		var example2 = new Vue({
+			el: '#example-2',
+			methods: {
+				submit: function () {
+					console.log('submit')
+				}
+			}
+		})
+		// enable v-on:keyup.f2
+		Vue.config.keyCodes.f2 = 113;
+	</script>
+</body>
+
+</html>

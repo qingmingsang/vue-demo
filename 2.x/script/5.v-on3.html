@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang='zh'>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style></style>
+</head>
+
+<body>
+	<div id="example-2">
+		<button @click="warn('Form cannot be submitted yet.', $event)">
+			Submit
+		</button>
+		<!-- the click event's propagation will be stopped -->
+		<a v-on:click.stop="doThis">.stop</a>
+		<!-- the submit event will no longer reload the page -->
+		<form v-on:submit.prevent="doThis">.prevent</form>
+		<!-- modifiers can be chained -->
+		<a v-on:click.stop.prevent="doThis">.stop.prevent</a>
+		<!-- just the modifier -->
+		<form v-on:submit.prevent>.prevent</form>
+		<!-- use capture mode when adding the event listener -->
+		<!-- i.e. an event targeting an inner element is handled here before being handled by that element -->
+		<div v-on:click.capture="doThis">.capture</div>
+		<!-- only trigger handler if event.target is the element itself -->
+		<!-- i.e. not from a child element -->
+		<div v-on:click.self="doThis">.self</div>
+		<!-- the click event will be triggered at most once -->
+		<a v-on:click.once="doThis">.once</a>
+	</div>
+	<script src='./vue.js'></script>
+	<script>
+		var example2 = new Vue({
+			el: '#example-2',
+			data: {
+				name: 'Vue.js'
+			},
+			methods: {
+				warn: function (message, event) {
+					// now we have access to the native event
+					if (event) event.preventDefault()
+					console.log(message)
+				},
+				doThis: function () {
+					console.log('click')
+				}
+			}
+		})
+	</script>
+</body>
+
+</html>

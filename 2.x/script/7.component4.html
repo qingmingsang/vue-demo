@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang='zh'>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style></style>
+</head>
+
+<body>
+	<div id="app">
+		<child message="hello!"></child>
+		<hr>
+		<input v-model="parentMsg">
+		<br>
+		<!-- 在 HTML 中使用 kebab-case -->
+		<!-- 如果没有相应的data，会变成直接传字符串 -->
+		<rc :my-message="parentMsg"></rc>
+		<hr>
+		<!-- 直接传字符串 -->
+		<rc my-message="parentMsg"></rc>
+		<hr>
+		<todo-item v-bind="todo"></todo-item>
+	</div>
+	<script src='./vue.js'></script>
+	<script>
+		Vue.component('child', {
+			// 声明 props
+			props: ['message'],
+			// 就像 data 一样，prop 也可以在模板中使用
+			// 同样也可以在 vm 实例中通过 this.message 来使用
+			template: '<span>{{ message }}</span>'
+		})
+		Vue.component('rc', {
+			// 在 JavaScript 中使用 camelCase
+			props: ['myMessage'],
+			template: '<span>{{ myMessage }}</span>'
+		})
+		Vue.component('todo-item', {
+			props: ['text', 'isComplete'],
+			template: '<div><span>{{ text }}</span>---<span>{{ isComplete }}</span></div>'
+		})
+		new Vue({
+			el: '#app',
+			data: {
+				parentMsg: '',
+				todo: {
+					text: 'Learn Vue',
+					isComplete: false
+				}
+			}
+		})
+	</script>
+</body>
+
+</html>

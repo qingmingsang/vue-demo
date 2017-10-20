@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang='zh'>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style></style>
+</head>
+
+<body>
+	<div id="app">
+		<input type="checkbox" v-model="toggle" v-bind:true-value="a" v-bind:false-value="b"> {{toggle}}
+		<hr>
+		<input type="radio" v-model="pick" v-bind:value="a"> {{pick}}
+		<hr>
+		<select v-model="selected">
+			<!-- 内联对象字面量 -->
+			<option v-bind:value="{ number: 123 }">{{selected}}</option>
+		</select>
+		<hr>
+		<!-- 在 "change" 而不是 "input" 事件中更新 -->
+		<input v-model.lazy="msg">{{msg}}
+		<hr>
+		<input v-model.number="age" type="number">{{age}}
+		<hr>
+		<input v-model.trim="msg2">{{msg2}}
+	</div>
+	<script src='./vue.js'></script>
+	<script>
+		var vm = new Vue({
+			el: '#app',
+			data: {
+				toggle: '',
+				a: 'xx',
+				b: 'yy',
+				pick: '',
+				selected: '',
+				msg: '',
+				age: '998',
+				msg2: '',
+			}
+		})
+		console.log(vm.toggle === vm.a)
+		console.log(vm.toggle === vm.b)
+		console.log(vm.pick === vm.a)
+		typeof vm.selected // => 'object'
+		vm.selected.number // => 123
+	</script>
+</body>
+
+</html>
