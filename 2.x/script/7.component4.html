@@ -21,6 +21,10 @@
 		<rc my-message="parentMsg"></rc>
 		<hr>
 		<todo-item v-bind="todo"></todo-item>
+		<hr>
+		<itemone initial-counter='gogo'> </itemone>
+		<hr>
+		<itemtwo size='  sayhi   '> </itemtwo>
 	</div>
 	<script src='./vue.js'></script>
 	<script>
@@ -39,6 +43,22 @@
 		Vue.component('todo-item', {
 			props: ['text', 'isComplete'],
 			template: '<div><span>{{ text }}</span>---<span>{{ isComplete }}</span></div>'
+		})
+		Vue.component('itemone', {
+			props: ['initialCounter'],
+			data: function () {
+				return { counter: this.initialCounter }
+			},
+			template: '<div>{{ counter }}</div>'
+		})
+		Vue.component('itemtwo', {
+			props: ['size'],
+			computed: {
+				normalizedSize: function () {
+					return this.size.trim().toLowerCase()
+				}
+			},
+			template: '<div>{{ normalizedSize }}</div>'
 		})
 		new Vue({
 			el: '#app',

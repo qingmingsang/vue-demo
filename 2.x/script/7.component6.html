@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang='zh'>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style></style>
+</head>
+
+<body>
+	<div id="app">
+		<bs-date-input data-3d-date-picker="true" class="date-picker-theme-dark"></bs-date-input>
+		<hr>
+		<p>{{ total }}</p>
+		<button-counter v-on:increment="incrementTotal"></button-counter>
+		<button-counter v-on:increment="incrementTotal"></button-counter>
+	</div>
+	<script src='./vue.js'></script>
+	<script>
+		Vue.component('bs-date-input', {
+			template: '<input type="date" class="form-control">'
+		})
+		Vue.component('button-counter', {
+			template: '<button v-on:click="incrementCounter">{{ counter }}</button>',
+			data: function () {
+				return {
+					counter: 0
+				}
+			},
+			methods: {
+				incrementCounter: function () {
+					this.counter += 1
+					this.$emit('increment')
+				}
+			},
+		})
+		new Vue({
+			el: '#app',
+			data: {
+				total: 0
+			},
+			methods: {
+				incrementTotal: function () {
+					this.total += 1
+				}
+			}
+		})
+	</script>
+</body>
+
+</html>
