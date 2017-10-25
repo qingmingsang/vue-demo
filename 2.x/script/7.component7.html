@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang='zh'>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style></style>
+</head>
+
+<body>
+	<div id="app">
+		<!-- 这个native 的功能没太明白 -->
+		<button-counter click.native='incrementTotal' :total="total"></button-counter>
+	</div>
+	<script src='./vue.js'></script>
+	<script>
+		Vue.component('button-counter', {
+			props: ['total'],
+			template: '<button>{{ total }}</button>'
+		})
+		new Vue({
+			el: '#app',
+			data: {
+				total: 0
+			},
+			methods: {
+				incrementTotal: function () {
+					this.total += 1
+				}
+			}
+		})
+	</script>
+</body>
+
+</html>
