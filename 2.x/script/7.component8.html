@@ -9,23 +9,114 @@
 
 <body>
 	<div id="app">
-		<button-counter click.native='incrementTotal' :total="total"></button-counter>
+		<currency-input v-model="price"></currency-input>
+		<hr>
+		<app-layout>
+			<h1 slot="header">这里可能是一个页面标题</h1>
+			<p>主要内容的一个段落。</p>
+			<p>另一个主要段落。</p>
+			<p slot="footer">这里有一些联系信息</p>
+		</app-layout>
+		<hr>
+		<div class="parent">
+			<child>
+				<template slot-scope="props">
+					<span>hello from parent</span>
+					<span>{{ props.text }}</span>
+				</template>
+			</child>
+		</div>
+		<hr>
+		<my-awesome-list :items="items">
+			<!-- 作用域插槽也可以是具名的 -->
+			<li slot="item" slot-scope="props" class="my-fancy-item">
+				{{ props.text }}
+			</li>
+		</my-awesome-list>
 	</div>
 	<script src='./vue.js'></script>
 	<script>
-		Vue.component('button-counter', {
-			props: ['total'],
-			template: '<button>{{ total }}</button>'
+		Vue.component('currency-input', {
+			template: `
+					<span>
+					$
+					<input
+					ref="input"
+					v-bind:value="value"
+					v-on:input="updateValue($event.target.value)"
+					>
+					</span>
+					`,
+			props: ['value'],
+			methods: {
+				// 不是直接更新值，而是使用此方法来对输入值进行格式化和位数限制
+				updateValue: function (value) {
+					var formattedValue = value
+						// 删除两侧的空格符
+						.trim()
+						// 保留 2 位小数
+						.slice(
+						0,
+						value.indexOf('.') === -1
+							? value.length
+							: value.indexOf('.') + 3
+						)
+					// 如果值尚不合规，则手动覆盖为合规的值
+					if (formattedValue !== value) {
+						this.$refs.input.value = formattedValue
+					}
+					// 通过 input 事件带出数值 ??什么意思
+					this.$emit('input', Number(formattedValue))
+				}
+			}
+		})
+		Vue.component('app-layout', {
+			template: `
+			<div class="container">
+				<header>
+					<slot name="header"></slot>
+				</header>
+				<main>
+					<slot></slot>
+				</main>
+				<footer>
+					<slot name="footer"></slot>
+				</footer>
+			</div>
+			`
+		})
+		Vue.component('child', {
+			template: `
+			<div class="child">
+				<slot text="hello from child"></slot>
+			</div>
+			`
+		})
+		Vue.component('my-awesome-list', {
+			props: ['items'],
+			template: `
+			<ul>
+				<slot name="item"
+					v-for="item in items"
+					:text="item.text">
+					<!-- 这里写入备用内容 -->
+				</slot>
+			</ul>
+			`
 		})
 		new Vue({
 			el: '#app',
 			data: {
-				total: 0
-			},
-			methods: {
-				incrementTotal: function () {
-					this.total += 1
-				}
+				price: '',
+				items: [
+					{
+						text: 'a'
+					}, {
+						text: 'b'
+					}, {
+						text: 'c'
+					}
+				]
 			}
 		})
 	</script>
