@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang='zh'>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style>
+		/* 1 */
+
+		.fade-enter-active,
+		.fade-leave-active {
+			transition: opacity .5s
+		}
+
+		.fade-enter,
+		.fade-leave-to {
+			opacity: 0
+		}
+
+		/* 2 */
+
+		.qm-fade-enter-active,
+		.qm-fade-leave-active {
+			transition: opacity .5s
+		}
+
+		.qm-fade-enter,
+		.qm-fade-leave-to {
+			opacity: 0
+		}
+
+		/* 3 */
+
+		/* 可以设置不同的进入和离开动画 */
+
+		/* 设置持续时间和动画函数 */
+
+		.slide-fade-enter-active {
+			transition: all .3s ease;
+		}
+
+		.slide-fade-leave-active {
+			transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+		}
+
+		.slide-fade-enter,
+		.slide-fade-leave-to {
+			transform: translateX(10px);
+			opacity: 0;
+		}
+
+		/* 4 */
+
+		.bounce-enter-active {
+			animation: bounce-in .5s;
+		}
+
+		.bounce-leave-active {
+			animation: bounce-in .5s reverse;
+		}
+
+		@keyframes bounce-in {
+			0% {
+				transform: scale(0);
+			}
+			50% {
+				transform: scale(1.5);
+			}
+			100% {
+				transform: scale(1);
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<div id="demo">
+		<button v-on:click="show = !show">
+			Toggle
+		</button>
+		<transition name="fade">
+			<p v-if="show">hello</p>
+		</transition>
+		<hr>
+		<button v-on:click="show2 = !show2">
+			Toggle
+		</button>
+		<transition name="qm-fade">
+			<p v-if="show2">hello</p>
+		</transition>
+		<hr>
+		<button @click="show3 = !show3">
+			Toggle render
+		</button>
+		<transition name="slide-fade">
+			<p v-if="show3">hello</p>
+		</transition>
+		<hr>
+		<button @click="show4 = !show4">Toggle show</button>
+		<transition name="bounce">
+			<p v-if="show4">Look at me!</p>
+		</transition>
+	</div>
+	<script src='./vue.js'></script>
+	<script>
+		new Vue({
+			el: '#demo',
+			data: {
+				show: true,
+				show2: false,
+				show3: true,
+				show4: true
+			}
+		})
+	</script>
+</body>
+
+</html>

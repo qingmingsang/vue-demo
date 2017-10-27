@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang='zh'>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style>
+	</style>
+</head>
+
+<body>
+	<div id="demo">
+		<input v-model.number="number" type="number" step="20">
+		<p>{{ animatedNumber }}</p>
+	</div>
+	<script src='./tween.js'></script>
+	<script src='./vue.js'></script>
+	<script>
+		new Vue({
+			el: '#demo',
+			data: {
+				number: 0,
+				animatedNumber: 0
+			},
+			watch: {
+				number: function (newValue, oldValue) {
+					var vm = this
+					function animate() {
+						if (TWEEN.update()) {
+							requestAnimationFrame(animate)
+						}
+					}
+					new TWEEN.Tween({ tweeningNumber: oldValue })
+						.easing(TWEEN.Easing.Quadratic.Out)
+						.to({ tweeningNumber: newValue }, 500)
+						.onUpdate(function () {
+							vm.animatedNumber = this.tweeningNumber.toFixed(0)
+						})
+						.start()
+					animate()
+				}
+			}
+		})
+	</script>
+</body>
+
+</html>
