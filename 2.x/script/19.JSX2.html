@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang='zh'>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style>
+	</style>
+</head>
+
+<body>
+	<div id="demo">
+		<test></test>
+		<hr>
+		<test2 :items='items'></test2>
+		<hr>
+		<test3 value='xx'></test3>
+	</div>
+	<script src='./vue.js'></script>
+	<script>
+
+		Vue.component('test', {
+			render: function (createElement) {
+				return createElement('div',
+					Array.apply(null, { length: 20 }).map(function () {
+						return createElement('p', 'hi')
+					})
+				)
+			}
+		})
+
+		Vue.component('test2', {
+			render: function (createElement) {
+				if (this.items.length) {
+					return createElement('ul', this.items.map(function (item) {
+						return createElement('li', item.name)
+					}))
+				} else {
+					return createElement('p', 'No items found.')
+				}
+			},
+			props: {
+				items: {
+					type: Array,
+					required: true
+				}
+			}
+		})
+
+		Vue.component('test3', {
+			render: function (createElement) {
+				var self = this
+				return createElement('input', {
+					domProps: {
+						value: self.value
+					},
+					on: {
+						input: function (event) {
+							self.value = event.target.value
+							self.$emit('input', event.target.value)
+						}
+					}
+				})
+			}
+		})
+		new Vue({
+			el: '#demo',
+			data: {
+				items: [{ name: 'a' }, { name: 'b' }, { name: 'c' }]
+			}
+		})
+
+
+	</script>
+</body>
+
+</html>

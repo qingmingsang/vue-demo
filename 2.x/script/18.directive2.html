@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang='zh'>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style>
+	</style>
+</head>
+
+<body>
+	<div id="demo">
+		<div v-demo1:foo.a.b="message"></div>
+		<hr>
+		<div v-demo2="color">color-switch</div>
+		<hr>
+		<div v-demo3="{ color: 'white', text: 'hello!' }"></div>
+	</div>
+	<script src='./vue.js'></script>
+	<script>
+		Vue.directive('demo1', {
+			bind: function (el, binding, vnode) {
+				var s = JSON.stringify;
+				console.log(el);
+				console.log(binding);
+				console.log(vnode);
+				el.innerHTML =
+					'name: ' + s(binding.name) + '<hr>' +
+					'value: ' + s(binding.value) + '<hr>' +
+					'expression: ' + s(binding.expression) + '<hr>' +
+					'argument: ' + s(binding.arg) + '<hr>' +
+					'modifiers: ' + s(binding.modifiers) + '<hr>' +
+					'vnode keys: ' + Object.keys(vnode).join(', ');
+			}
+		})
+		Vue.directive('demo2', function (el, binding) {
+			el.style.backgroundColor = binding.value;
+		})
+
+		Vue.directive('demo3', function (el, binding) {
+			console.log(binding.value.color) // => "white"
+			console.log(binding.value.text)  // => "hello!"
+		})
+		new Vue({
+			el: '#demo',
+			data: {
+				message: 'hello!',
+				color: 'lightblue'
+			}
+		})
+
+
+	</script>
+</body>
+
+</html>

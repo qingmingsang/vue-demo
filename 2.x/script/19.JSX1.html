@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang='zh'>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style>
+	</style>
+</head>
+
+<body>
+	<div id="demo">
+		<anchored-heading :level="1">Hello world!</anchored-heading>
+		<hr>
+		<anchored-heading2 :level="2">Hello world!</anchored-heading2>
+		<hr>
+		<anchored-heading3 :level="3">Hello world!</anchored-heading3>
+	</div>
+	<script src='./vue.js'></script>
+	<script type="text/x-template" id="anchored-heading-template">
+		<h1 v-if="level === 1">
+		  <slot></slot>
+		</h1>
+		<h2 v-else-if="level === 2">
+		  <slot></slot>
+		</h2>
+		<h3 v-else-if="level === 3">
+		  <slot></slot>
+		</h3>
+		<h4 v-else-if="level === 4">
+		  <slot></slot>
+		</h4>
+		<h5 v-else-if="level === 5">
+		  <slot></slot>
+		</h5>
+		<h6 v-else-if="level === 6">
+		  <slot></slot>
+		</h6>
+	</script>
+	<script>
+		Vue.component('anchored-heading', {
+			template: '#anchored-heading-template',
+			props: {
+				level: {
+					type: Number,
+					required: true
+				}
+			}
+		})
+		Vue.component('anchored-heading2', {
+			render: function (createElement) {
+				return createElement(
+					'h' + this.level,   // tag name 标签名称
+					this.$slots.default // 子组件中的阵列
+				)
+			},
+			props: {
+				level: {
+					type: Number,
+					required: true
+				}
+			}
+		})
+
+		var getChildrenTextContent = function (children) {
+			console.log(children)
+			return children.map(function (node) {
+				console.log(node)
+				return node.children
+					? getChildrenTextContent(node.children)
+					: node.text
+			}).join('')
+		}
+		Vue.component('anchored-heading3', {
+			render: function (createElement) {
+				// create kebabCase id
+				var headingId = getChildrenTextContent(this.$slots.default);
+				console.log(headingId)
+				headingId = headingId.toLowerCase();
+				console.log(headingId)
+				headingId = headingId.replace(/\W+/g, '-');
+				console.log(headingId)
+				headingId = headingId.replace(/(^\-|\-$)/g, '');//把开头和末尾的-去除
+				console.log(headingId)
+				console.log(this.$slots)
+				console.log(this.$slots.default)
+				return createElement(
+					'h' + this.level,
+					[
+						createElement('a', {
+							attrs: {
+								name: headingId,
+								href: '#' + headingId
+							}
+						}, this.$slots.default)
+					]
+				)
+			},
+			props: {
+				level: {
+					type: Number,
+					required: true
+				}
+			}
+		})
+		new Vue({
+			el: '#demo'
+		})
+
+
+	</script>
+</body>
+
+</html>

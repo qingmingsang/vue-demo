@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang='zh'>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style>
+	</style>
+</head>
+
+<body>
+	<div id="demo">
+	</div>
+	<script src='./vue.js'></script>
+	<script>
+		//1
+		// 定义一个混合对象
+		var myMixin = {
+			created: function () {
+				this.hello()
+			},
+			methods: {
+				hello: function () {
+					console.log('hello from mixin!')
+				}
+			}
+		}
+		// 定义一个使用混合对象的组件
+		var Component = Vue.extend({
+			mixins: [myMixin]
+		})
+		// => "hello from mixin!"
+		var component = new Component()
+
+		//2
+		var mixin = {
+			created: function () {
+				console.log('混合对象的钩子被调用')
+			}
+		}
+		new Vue({
+			mixins: [mixin],
+			created: function () {
+				console.log('组件钩子被调用')
+			}
+		})
+		// => "混合对象的钩子被调用"
+		// => "组件钩子被调用"
+
+		//3
+		var mixin2 = {
+			methods: {
+				foo: function () {
+					console.log('foo')
+				},
+				conflicting: function () {
+					console.log('from mixin')
+				}
+			}
+		}
+		var vm = new Vue({
+			mixins: [mixin2],
+			methods: {
+				bar: function () {
+					console.log('bar')
+				},
+				conflicting: function () {
+					//两个对象键名冲突时，取组件对象的键值对。
+					console.log('from self')
+				}
+			}
+		})
+		vm.foo() // => "foo"
+		vm.bar() // => "bar"
+		vm.conflicting() // => "from self"
+
+		//4
+		// 为自定义的选项 'myOption' 注入一个处理器。
+		Vue.mixin({
+			created: function () {
+				var myOption = this.$options.myOption
+				if (myOption) {
+					console.log(myOption)
+				}
+			}
+		})
+		new Vue({
+			myOption: 'hello!'// => "hello!"
+		})
+
+	</script>
+</body>
+
+</html>
