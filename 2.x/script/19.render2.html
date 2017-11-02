@@ -58,6 +58,21 @@
 						input: function (event) {
 							self.value = event.target.value
 							self.$emit('input', event.target.value)
+						},
+						keyup: function (event) {
+							// 如果触发事件的元素不是事件绑定的元素
+							// 则返回
+							if (event.target !== event.currentTarget) return
+							// 如果按下去的不是 enter 键或者
+							// 没有同时按下 shift 键
+							// 则返回
+							if (!event.shiftKey || event.keyCode !== 13) return
+							// 阻止 事件冒泡
+							event.stopPropagation()
+							// 阻止该元素默认的 keyup 事件
+							event.preventDefault()
+							// ...
+							console.log('keyup')
 						}
 					}
 				})

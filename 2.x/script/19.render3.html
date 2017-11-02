@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang='zh'>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style>
+	</style>
+</head>
+
+<body>
+	<div id="demo">
+		<test>
+			<span>Hello world!</span>
+		</test>
+		<hr>
+	</div>
+	<script src='./vue.js'></script>
+	<script>
+		Vue.component('test', {
+			render: function (createElement) {
+				//可以从 this.$slots 获取 VNodes 列表中的静态内容
+				//有点类似react的children
+				console.log(this.$slots.default)
+				console.log(this.$slots)
+				// `<div><slot></slot></div>`
+				return createElement('div', this.$slots.default)
+			}
+		})
+
+		//?
+		// Vue.component('test2', {
+		// 	render: function (createElement) {
+		// 		// `<div><slot :text="msg"></slot></div>`
+		// 		return createElement('div', [
+		// 			this.$scopedSlots.default({
+		// 				text: this.msg
+		// 			})
+		// 		])
+		// 	}
+		// })
+
+		//?
+		// Vue.component('test3', {
+		// 	render(createElement) {
+		// 		return createElement('div', [
+		// 			createElement('child', {
+		// 				// pass `scopedSlots` in the data object
+		// 				// in the form of { name: props => VNode | Array<VNode> }
+		// 				scopedSlots: {
+		// 					default: function (props) {
+		// 						return createElement('span', props.text)
+		// 					}
+		// 				}
+		// 			})
+		// 		])
+		// 	}
+		// })
+
+		new Vue({
+			el: '#demo'
+		})
+	</script>
+</body>
+
+</html>
