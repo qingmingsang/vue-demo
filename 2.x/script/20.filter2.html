@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang='zh'>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style>
+	</style>
+</head>
+
+<body>
+	<div class="test">
+		<p>{{message | sum}}</p>
+
+		<!-- 废弃的写法 -->
+		<!--过滤器函数始终以表达式的值作为第一个参数。带引号的参数视为字符串，而不带引号的参数按表达式计算。-->
+		<!-- <p>{{message | cal 10 20}}</p> -->
+
+		<!-- 废弃的写法 -->
+		<!--添加两个过滤器,注意不要冲突-->
+		<!-- <p>{{message | sum | currency }}</p> -->
+
+
+		<!-- 废弃的写法 -->
+		<!--用户从input输入的数据在回传到model之前也可以先处理-->
+		<!-- <input type="text" v-model="message | change"> -->
+	</div>
+	<script src='./vue.js'></script>
+	<script>
+		Vue.filter("change", {
+			read: function (value) { // model -> view 在更新 `<input>` 元素之前格式化值
+				return value;
+			},
+			write: function (newVal, oldVal) { // view -> model  在写回数据之前格式化值
+				console.log("newVal:" + newVal);
+				console.log("oldVal:" + oldVal);
+				return newVal;
+			}
+		});
+
+		var myVue = new Vue({
+			el: ".test",
+			data: {
+				message: 12
+			},
+			filters: {
+				sum: function (value) {
+					return value + 4;
+				},
+				cal: function (value, begin, xing) {
+					return value + begin + xing;
+				}
+			}
+		});
+	</script>
+</body>
+
+</html>
