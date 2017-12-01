@@ -1,47 +1,47 @@
 <!DOCTYPE html>
 <html lang='zh'>
 
-<head>
-	<meta charset="UTF-8">
-	<title></title>
-	<style></style>
-</head>
+  <head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style></style>
+  </head>
 
-<body>
-	<div id="example">
-		<p>Original message: "{{ message }}"</p>
-		<p>Computed reversed message: "{{ reversedMessageC }}"</p>
-		<p>Reversed message: "{{ reversedMessageM() }}"</p>
-		<p>time: "{{ now }}"</p>
-	</div>
-	<script src='./vue.js'></script>
-	<script>
-		var vm = new Vue({
-			el: '#example',
-			data: {
-				message: 'Hello'
-			},
-			computed: {
-				// a computed getter
-				reversedMessageC: function () {
-					// `this` points to the vm instance
-					return this.message.split('').reverse().join('')
-				},
-				now: function () {
-					return Date.now()
-				}
-			},
-			// in component
-			methods: {
-				reversedMessageM: function () {
-					return this.message.split('').reverse().join('')
-				}
-			}
-		})
-		console.log(vm.reversedMessage) // => 'olleH'
-		vm.message = 'Goodbye'
-		console.log(vm.reversedMessage) // => 'eybdooG'
-	</script>
-</body>
+  <body>
+    <div id="example">
+      <p>Original message: "{{ message }}"</p>
+      <p>Computed reversed message: "{{ reversedMessageC }}"</p>
+      <p>Reversed message: "{{ reversedMessageM() }}"</p>
+      <p>time: "{{ now }}"</p>
+    </div>
+    <script src='./vue.js'></script>
+    <script>
+      var vm = new Vue({
+        el: '#example',
+        data: {
+          message: 'Hello'
+        },
+        computed: {
+          // a computed getter
+          reversedMessageC: function () {
+            // `this` points to the vm instance
+            return this.message.split('').reverse().join('')
+          },
+          now: function () {
+            return Date.now()
+          }
+        },
+        // in component
+        methods: {
+          reversedMessageM: function () {
+            return this.message.split('').reverse().join('')
+          }
+        }
+      })
+      console.log(vm.reversedMessage) // => 'olleH'
+      vm.message = 'Goodbye'
+      console.log(vm.reversedMessage) // => 'eybdooG'
+    </script>
+  </body>
 
 </html>

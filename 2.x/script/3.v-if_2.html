@@ -1,31 +1,31 @@
 <!DOCTYPE html>
 <html lang='zh'>
 
-<head>
-	<meta charset="UTF-8">
-	<title></title>
-	<style></style>
-</head>
+  <head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style></style>
+  </head>
 
-<body>
-	<div id="app">
-		<h1 v-if="ok">Yes</h1>
-		<h1 v-else>No</h1>
-		<template v-if="ok">
-			<h1>Title</h1>
-			<p>Paragraph 1</p>
-			<p>Paragraph 2</p>
-		</template>
-	</div>
-	<script src='./vue.js'></script>
-	<script>
-		var app = new Vue({
-			el: '#app',
-			data: {
-				ok: true
-			}
-		})
-	</script>
-</body>
+  <body>
+    <div id="app">
+      <h1 v-if="ok">Yes</h1>
+      <h1 v-else>No</h1>
+      <template v-if="ok">
+        <h1>Title</h1>
+        <p>Paragraph 1</p>
+        <p>Paragraph 2</p>
+      </template>
+    </div>
+    <script src='./vue.js'></script>
+    <script>
+      var app = new Vue({
+        el: '#app',
+        data: {
+          ok: true
+        }
+      })
+    </script>
+  </body>
 
 </html>

@@ -1,47 +1,47 @@
 <!DOCTYPE html>
 <html lang='zh'>
 
-<head>
-	<meta charset="UTF-8">
-	<title></title>
-	<style></style>
-</head>
+  <head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style></style>
+  </head>
 
-<body>
-	<div id="demo">{{ fullName }}</div>
-	<div id="demo2">{{ fullName }}</div>
-	<script src='./vue.js'></script>
-	<script>
-		var demo = new Vue({
-			el: '#demo',
-			data: {
-				firstName: 'Foo',
-				lastName: 'Bar',
-				fullName: 'Foo Bar'
-			},
-			watch: {
-				firstName: function (val) {
-					this.fullName = val + ' ' + this.lastName
-				},
-				lastName: function (val) {
-					this.fullName = this.firstName + ' ' + val
-				}
-			}
-		})
+  <body>
+    <div id="demo">{{ fullName }}</div>
+    <div id="demo2">{{ fullName }}</div>
+    <script src='./vue.js'></script>
+    <script>
+      var demo = new Vue({
+        el: '#demo',
+        data: {
+          firstName: 'Foo',
+          lastName: 'Bar',
+          fullName: 'Foo Bar'
+        },
+        watch: {
+          firstName: function (val) {
+            this.fullName = val + ' ' + this.lastName
+          },
+          lastName: function (val) {
+            this.fullName = this.firstName + ' ' + val
+          }
+        }
+      })
 
-		var demo2 = new Vue({
-			el: '#demo2',
-			data: {
-				firstName: 'Foo',
-				lastName: 'Bar'
-			},
-			computed: {
-				fullName: function () {
-					return this.firstName + ' ' + this.lastName
-				}
-			}
-		})
-	</script>
-</body>
+      var demo2 = new Vue({
+        el: '#demo2',
+        data: {
+          firstName: 'Foo',
+          lastName: 'Bar'
+        },
+        computed: {
+          fullName: function () {
+            return this.firstName + ' ' + this.lastName
+          }
+        }
+      })
+    </script>
+  </body>
 
 </html>
