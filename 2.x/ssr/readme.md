@@ -732,6 +732,8 @@ stream.on('error', err => {
 
 Vue2使用的是单向数据流，用了它，就可以通过 SSR 返回唯一一个全局状态，并确认某个组件是否已经SSR过了。
 
-
-
+# 其他
+服务端渲染部分不能用懒加载?
+router,vuex需要额外配置
+启动的server会主动去找static下的index.html,而且优先级很高
 

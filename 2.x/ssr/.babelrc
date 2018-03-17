@@ -3,6 +3,8 @@
     "env"
   ],
   "plugins": [
-    "syntax-dynamic-import"
+    "syntax-dynamic-import",
+    "transform-runtime",
+    "transform-object-rest-spread"
   ]
 }

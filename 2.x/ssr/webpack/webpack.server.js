@@ -6,51 +6,38 @@ const VueSSRServerPlugin = require('vue-server-renderer/server-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const webpack = require('webpack');
+const VueSSRPlugin = require('vue-ssr-webpack-plugin');
 
-module.exports = merge(baseConfig, {
+module.exports = {
   // 将 entry 指向应用程序的 server entry 文件
-  entry: './src/entry-server.js',
+  entry: {
+    server: './src/main-server.js'
+  },
   // 这允许 webpack 以 Node 适用方式(Node-appropriate fashion)处理动态导入(dynamic import)，
   // 并且还会在编译 Vue 组件时，
   // 告知 `vue-loader` 输送面向服务器代码(server-oriented code)。
   target: 'node',
   // 对 bundle renderer 提供 source map 支持
-  devtool: 'source-map',
   // 此处告知 server bundle 使用 Node 风格导出模块(Node-style exports)
   output: {
-    filename: '[name].[chunkhash:8].js',
+    filename: '[name].bundle.js',
     //chunkFilename: '[name].[chunkhash:8].js',
-    path: path.resolve(__dirname, '../dist'),
+    path: path.resolve(__dirname, '../dist/server'),
     libraryTarget: 'commonjs2'
   },
-  // https://webpack.js.org/configuration/externals/#function
-  // https://github.com/liady/webpack-node-externals
-  // 外置化应用程序依赖模块。可以使服务器构建速度更快，
-  // 并生成较小的 bundle 文件。
-  externals: nodeExternals({
-    // 不要外置化 webpack 需要处理的依赖模块。
-    // 你可以在这里添加更多的文件类型。例如，未处理 *.vue 原始文件，
-    // 你还应该将修改 `global`（例如 polyfill）的依赖模块列入白名单
-    whitelist: /\.css$/
-  }),
-  // 这是将服务器的整个输出
-  // 构建为单个 JSON 文件的插件。
-  // 默认文件名为 `vue-ssr-server-bundle.json`
   plugins: [
     new VueSSRServerPlugin(),
+    // new VueSSRPlugin({
+    //   filename: 'vue-ssr-server-bundle.json'
+    // }),
     new CleanWebpackPlugin(
-      ['vue-ssr-server-bundle.json'],
-      { root: path.resolve(__dirname, '../dist') }
+      ['*'],
+      { root: path.resolve(__dirname, '../dist/server') }
     ),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
       'process.env.VUE_ENV': '"server"'
-    }),
-    // new HtmlWebpackPlugin({
-    //   title: 'demo',
-    //   inject: 'body',
-    //   template: path.resolve(__dirname, 'template.html')
-    // }),
+    })
   ],
   module: {
     rules: [
@@ -60,7 +47,23 @@ module.exports = merge(baseConfig, {
         use: {
           loader: 'vue-loader'
         }
-      }
+      },
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader'
+        }
+      },
     ]
   },
-})
+  resolve: {
+    extensions: ['.js', '.vue'],
+    alias: {
+      'vue$': 'vue/dist/vue.esm.js'
+    }
+  },
+  externals: {
+    //'node-fetch': 'fetch'
+  }
+}
