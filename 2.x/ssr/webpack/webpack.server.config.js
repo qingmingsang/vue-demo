@@ -15,12 +15,12 @@ module.exports = merge(baseConfig, {
   // 告知 `vue-loader` 输送面向服务器代码(server-oriented code)。
   target: 'node',
   // 对 bundle renderer 提供 source map 支持
-  devtool: 'source-map',
+  //devtool: 'source-map',
   // 此处告知 server bundle 使用 Node 风格导出模块(Node-style exports)
   output: {
     filename: '[name].[chunkhash:8].js',
     //chunkFilename: '[name].[chunkhash:8].js',
-    path: path.resolve(__dirname, '../dist'),
+    path: path.resolve(__dirname, '../dist/server'),
     libraryTarget: 'commonjs2'
   },
   // https://webpack.js.org/configuration/externals/#function
@@ -39,8 +39,8 @@ module.exports = merge(baseConfig, {
   plugins: [
     new VueSSRServerPlugin(),
     new CleanWebpackPlugin(
-      ['vue-ssr-server-bundle.json'],
-      { root: path.resolve(__dirname, '../dist') }
+      ['*'],
+      { root: path.resolve(__dirname, '../dist/server') }
     ),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
@@ -60,7 +60,14 @@ module.exports = merge(baseConfig, {
         use: {
           loader: 'vue-loader'
         }
-      }
+      },
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader'
+        }
+      },
     ]
   },
 })

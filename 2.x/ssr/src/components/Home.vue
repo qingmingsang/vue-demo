@@ -23,7 +23,8 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch('hello')
+    this.$store.dispatch('ajaxList');
+    this.$store.dispatch('hello');
   },
   computed: {
     list() {

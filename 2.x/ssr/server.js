@@ -1,11 +1,23 @@
-const express = require('express')
-const app = express()
-const fs = require('fs-extra');
 const path = require('path');
-const vueServerRenderer = require('vue-server-renderer');
+const fs = require('fs');
+const express = require('express');
+const app = express();
 
-app.use(express.static('./dist'));
-app.use(express.static('./dist/client'));
+const { createBundleRenderer } = require('vue-server-renderer')
+
+let ldir = path.resolve(__dirname, 'dist/client/client.html');
+const template = fs.readFileSync(ldir, 'utf-8')
+const serverBundle = require('./dist/server/vue-ssr-server-bundle.json')
+const clientManifest = require('./dist/client/vue-ssr-client-manifest.json')
+
+const renderer = createBundleRenderer(serverBundle, {
+  runInNewContext: false, // 推荐将 runInNewContext 选项设置为 false 或 'once'
+  template, // （可选）页面模板
+  clientManifest // （可选）客户端构建 manifest
+})
+
+app.use(express.static('dist/client'));
+
 app.get('/data', (req, res, next) => {
   res.send({
     "code": 1,
@@ -155,34 +167,21 @@ app.get('/data', (req, res, next) => {
   })
 })
 
-app.get('/hello', (req, res, next) => {
-  res.send('hello world')
-})
-let ldir = path.resolve(__dirname, './dist/client/output.html')
-//let ldir = path.resolve(__dirname, 'template.html')
-let template = require('fs').readFileSync(ldir, 'utf-8');
+// app.get('*', function (req, res) {
+//   res.sendFile(ldir)
+// })
 
-
-app.get('/test', function (req, res) {
-  //let tp = path.resolve(__dirname, './dist/client/index.html');
-  res.sendFile(ldir)
-})
-app.get('*', function (req, resp) {
-  const filePath = path.join(__dirname, './dist/server/vue-ssr-server-bundle.json')
-  const code = fs.readJsonSync(filePath);
-  const bundleRenderer = vueServerRenderer.createBundleRenderer(code, {
-    template: template
-  });
-  bundleRenderer.renderToString((err, html) => {
-    if (err) {
-      console.log(err.message);
-      console.log(err.stack);
-    }
+// 在服务器处理函数中……
+app.get('*', (req, res) => {
+  const context = { url: req.url }
+  // 这里无需传入一个应用程序，因为在执行 bundle 时已经自动创建过。
+  // 现在我们的服务器与应用程序已经解耦！
+  renderer.renderToString(context, (err, html) => {
+    // 处理异常……
     //console.log(html);
-    resp.send(html)
-  });
+    res.end(html)
+  })
 })
-
 app.listen(7000, () => {
   console.log(`Listening on port 7000`);
 });

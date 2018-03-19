@@ -9,9 +9,9 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 module.exports = merge(baseConfig, {
   entry: './src/entry-client.js',
   output: {
-    filename: '[name].[chunkhash:8].js',
-    chunkFilename: '[name].[chunkhash:8].js',
-    path: path.resolve(__dirname, '../dist')
+    filename: '[name].[chunkhash:8].bundle.js',
+    chunkFilename: '[name].[chunkhash:8].chunk.js',
+    path: path.resolve(__dirname, '../dist/client')
   },
   module: {
     rules: [
@@ -58,8 +58,9 @@ module.exports = merge(baseConfig, {
   plugins: [
     new HtmlWebpackPlugin({
       title: 'demo',
-      inject: 'body',
-      template: path.resolve(__dirname, 'template.html')
+      inject: true,
+      template: path.resolve(__dirname, 'template.html'),
+      filename: 'client.html'
     }),
     // 重要信息：这将 webpack 运行时(runtime)分离到一个引导 chunk 中，
     // 以便可以在之后正确注入异步 chunk。
@@ -74,8 +75,7 @@ module.exports = merge(baseConfig, {
     new CleanWebpackPlugin(
       ['*'],
       {
-        root: path.resolve(__dirname, '../dist'),
-        exclude: ['vue-ssr-server-bundle.json']
+        root: path.resolve(__dirname, '../dist/client')
       }
     ),
     new webpack.DefinePlugin({
