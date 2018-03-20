@@ -2,14 +2,15 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const parentDir = path.resolve(__dirname, '..');
-const distDir = path.resolve(parentDir, 'dist');
+const distDir = path.resolve(parentDir, 'dist/client');
 
 module.exports = {
   entry: {
-    app: './src/main.js'
+    app: './src/entry-client.js'
   },
   output: {
-    filename: '[name].js',
+    filename: '[name].bundle.js',
+    chunkFilename: '[name].chunk.js',
     path: distDir
   },
   module: {
@@ -51,9 +52,8 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       title: 'demo',
-      favicon: path.resolve(__dirname, 'favicon.ico'),
-      inject: 'body',
-      template: path.resolve(__dirname, 'template.html')
+      inject: true,
+      template: path.resolve(__dirname, 'dev.html')
     }),
   ],
   resolve: {

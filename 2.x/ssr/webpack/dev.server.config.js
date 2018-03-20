@@ -18,10 +18,10 @@ module.exports = merge(baseConfig, {
   //devtool: 'source-map',
   // 此处告知 server bundle 使用 Node 风格导出模块(Node-style exports)
   output: {
-    filename: '[name].[chunkhash:8].js',
-    //chunkFilename: '[name].[chunkhash:8].js',
-    path: path.resolve(__dirname, '../dist/server'),
-    libraryTarget: 'commonjs2'
+    libraryTarget: 'commonjs2',
+    filename: 'server-bundle.js',
+    path: path.resolve(__dirname, '../dist'),
+    //publicPath: '/dist/',
   },
   // https://webpack.js.org/configuration/externals/#function
   // https://github.com/liady/webpack-node-externals
@@ -37,20 +37,7 @@ module.exports = merge(baseConfig, {
   // 构建为单个 JSON 文件的插件。
   // 默认文件名为 `vue-ssr-server-bundle.json`
   plugins: [
-    new VueSSRServerPlugin(),
-    // new CleanWebpackPlugin(
-    //   ['*'],
-    //   { root: path.resolve(__dirname, '../dist/server') }
-    // ),
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
-      'process.env.VUE_ENV': '"server"'
-    }),
-    // new HtmlWebpackPlugin({
-    //   title: 'demo',
-    //   inject: 'body',
-    //   template: path.resolve(__dirname, 'template.html')
-    // }),
+    new VueSSRServerPlugin()
   ],
   module: {
     rules: [

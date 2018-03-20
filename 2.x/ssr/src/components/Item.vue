@@ -1,6 +1,18 @@
 <template>
-  <div>{{ item.title }}</div>
+    <div class="wrap">
+        <router-link :to="{ name: 'home'}">to home page</router-link>
+        <br>
+        <ul>
+            <li :key="item.title" v-for="item in list" @click="showTitle(item.title)">
+                <img :src="item.image">
+                <p>
+                    {{item.title}}
+                </p>
+            </li>
+        </ul>
+    </div>
 </template>
+
 <script>
 export default {
   //暴露出一个自定义静态函数 asyncData。
@@ -8,12 +20,20 @@ export default {
   //需要将 store 和路由信息作为参数传递进去：
   asyncData({ store, route }) {
     // 触发 action 后，会返回 Promise
-    return store.dispatch('fetchItem', route.params.id)
+    store.dispatch('ajaxList');//这里好像不加return也没关系
+    //return store.dispatch('fetchItem', route.params.id)
+  },
+  data() {
+    return {}
+  },
+  methods: {
+    showTitle(title) {
+      console.log(title)
+    }
   },
   computed: {
-    // 从 store 的 state 对象中的获取 item。
-    item() {
-      return this.$store.state.items[this.$route.params.id]
+    list() {
+      return this.$store.state.list
     }
   }
 }

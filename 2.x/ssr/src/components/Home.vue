@@ -1,34 +1,20 @@
 <template>
-    <div class="wrap">
-        <ul>
-            <li :key="item.title" v-for="item in list" @click="showTitle(item.title)">
-                <img :src="item.image">
-                <p>
-                    {{item.title}}
-                </p>
-            </li>
-        </ul>
+    <div>
+      <router-link :to="{ name: 'item'}">to item page</router-link>
+      <br>
+      {{hello}}
     </div>
 </template>
 
 <script>
 
 export default {
-  data() {
-    return {}
-  },
-  methods: {
-    showTitle(title) {
-      console.log(title)
-    }
-  },
   mounted() {
-    this.$store.dispatch('ajaxList');
     this.$store.dispatch('hello');
   },
   computed: {
-    list() {
-      return this.$store.state.list
+    hello() {
+      return this.$store.state.hello
     }
   }
 }

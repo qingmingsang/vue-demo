@@ -6,8 +6,20 @@ export function createRouter() {
   return new Router({
     mode: 'history',
     routes: [
-      { path: '/', component: () => import(/* webpackChunkName: "Home" */'./components/Home.vue') },
-      { path: '/item/:id', component: () => import(/* webpackChunkName: "Item" */'./components/Item.vue') }
+      {
+        path: '/',
+        redirect: '/home'
+      },
+      {
+        path: '/home',
+        name: 'home',
+        component: () => import(/* webpackChunkName: "Home" */'./components/Home.vue')
+      },
+      {
+        path: '/item',
+        name: 'item',
+        component: () => import(/* webpackChunkName: "Item" */'./components/Item.vue')
+      }
     ]
   })
 }

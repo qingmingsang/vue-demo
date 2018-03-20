@@ -1,6 +1,8 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-Vue.use(Vuex)
+import Vue from 'vue';
+import Vuex from 'vuex';
+import axios from 'axios';
+
+Vue.use(Vuex);
 
 export function createStore() {
   return new Vuex.Store({
@@ -15,9 +17,8 @@ export function createStore() {
       },
       async ajaxList({ commit }) {
         try {
-          let response = await fetch('http://localhost:7000/data');
-          let data = await response.json();
-          commit('setListData', data.data.liveWodList)
+          let data = await axios.get('http://localhost:7000/data');
+          commit('setListData', data.data.data.liveWodList)
         } catch (e) {
           console.log("Oops, error", e);
         }

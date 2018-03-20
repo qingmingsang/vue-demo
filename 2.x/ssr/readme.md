@@ -733,8 +733,15 @@ stream.on('error', err => {
 Vue2使用的是单向数据流，用了它，就可以通过 SSR 返回唯一一个全局状态，并确认某个组件是否已经SSR过了。
 
 # 其他
-服务端渲染部分不能用懒加载?
-router,vuex需要额外配置
 启动的server会主动去找static下的index.html,而且优先级很高
 
 `Uncaught SyntaxError: Unexpected token <`很可能是html中的某个文件没正确加载.
+
+增加重复的plugin会导致打包有问题却不会报错.
+
+webpack-dev-middle 1.x和webpack 3.x适配,但是现在默认装都是webpack-dev-middle 3.x的版本,是和webpack 4.x适配的.非常坑.
+
+ssr的热重载方案没有文档,基本只能直接用[vue-hackernews-2.0](https://github.com/vuejs/vue-hackernews-2.0)里的setup-dev-server.js.
+
+node-fetch/isomorphic-fetch 不知道为何一直报错改用axios.而axios的拦截器据说在node端有内存泄漏的问题.
+

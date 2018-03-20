@@ -3,21 +3,6 @@ const fs = require('fs');
 const express = require('express');
 const app = express();
 
-const { createBundleRenderer } = require('vue-server-renderer')
-
-let ldir = path.resolve(__dirname, 'dist/client/client.html');
-const template = fs.readFileSync(ldir, 'utf-8')
-const serverBundle = require('./dist/server/vue-ssr-server-bundle.json')
-const clientManifest = require('./dist/client/vue-ssr-client-manifest.json')
-
-const renderer = createBundleRenderer(serverBundle, {
-  runInNewContext: false, // 推荐将 runInNewContext 选项设置为 false 或 'once'
-  template, // （可选）页面模板
-  clientManifest // （可选）客户端构建 manifest
-})
-
-app.use(express.static('dist/client'));
-
 app.get('/data', (req, res, next) => {
   res.send({
     "code": 1,
@@ -166,22 +151,77 @@ app.get('/data', (req, res, next) => {
     "showMsg": ""
   })
 })
+app.get('/hello', function (req, res) {
+  res.send('hello world')
+})
 
-// app.get('*', function (req, res) {
-//   res.sendFile(ldir)
+const { createBundleRenderer } = require('vue-server-renderer')
+
+function createRenderer(bundle, options) {
+  // https://github.com/vuejs/vue/blob/dev/packages/vue-server-renderer/README.md#why-use-bundlerenderer
+  return createBundleRenderer(bundle, Object.assign(options, {
+    // for component caching
+    // cache: LRU({
+    //   max: 1000,
+    //   maxAge: 1000 * 60 * 15
+    // }),
+    // this is only needed when vue-server-renderer is npm-linked
+    //basedir: resolve('./dist'),
+    // recommended for performance
+    runInNewContext: false// 推荐将 runInNewContext 选项设置为 false 或 'once'
+  }))
+}
+
+const templatePath = path.resolve(__dirname, 'webpack/template.html');
+const template = fs.readFileSync(templatePath, 'utf-8')
+
+// let renderer = createBundleRenderer(serverBundle, {
+//   runInNewContext: false, 
+//   template, // （可选）页面模板
+//   clientManifest // （可选）客户端构建 manifest
 // })
 
-// 在服务器处理函数中……
-app.get('*', (req, res) => {
+let renderer;
+function render(req, res) {
   const context = { url: req.url }
   // 这里无需传入一个应用程序，因为在执行 bundle 时已经自动创建过。
   // 现在我们的服务器与应用程序已经解耦！
   renderer.renderToString(context, (err, html) => {
     // 处理异常……
-    //console.log(html);
     res.end(html)
   })
-})
+}
+
+if (process.env.NODE_ENV == 'development') {
+  app.use(express.static('dist'));
+
+  // In development: setup the dev server with watch and hot-reload,
+  // and create a new renderer on bundle / index template update.
+  const setup = require('./webpack/setup-dev-server.js');
+  const readyPromise = setup(
+    app,
+    templatePath,
+    (bundle, options) => {
+      renderer = createRenderer(bundle, options)
+    }
+  );
+  app.get('*', (req, res) => {
+    readyPromise.then(() => render(req, res))
+  })
+} else {
+  app.use(express.static('dist/client'));
+
+  const serverBundle = require('./dist/server/vue-ssr-server-bundle.json')
+  const clientManifest = require('./dist/client/vue-ssr-client-manifest.json')
+
+  renderer = createRenderer(serverBundle, {
+    template,
+    clientManifest
+  })
+  // 在服务器处理函数中……
+  app.get('*', render)
+}
+
 app.listen(7000, () => {
   console.log(`Listening on port 7000`);
 });
