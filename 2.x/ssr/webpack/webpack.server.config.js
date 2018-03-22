@@ -7,7 +7,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const webpack = require('webpack');
 
-module.exports = merge(baseConfig, {
+module.exports = {
   // 将 entry 指向应用程序的 server entry 文件
   entry: './src/entry-server.js',
   // 这允许 webpack 以 Node 适用方式(Node-appropriate fashion)处理动态导入(dynamic import)，
@@ -20,7 +20,7 @@ module.exports = merge(baseConfig, {
   output: {
     filename: '[name].[chunkhash:8].js',
     //chunkFilename: '[name].[chunkhash:8].js',
-    path: path.resolve(__dirname, '../dist/server'),
+    path: path.resolve(__dirname, '../dist'),
     libraryTarget: 'commonjs2'
   },
   // https://webpack.js.org/configuration/externals/#function
@@ -38,10 +38,10 @@ module.exports = merge(baseConfig, {
   // 默认文件名为 `vue-ssr-server-bundle.json`
   plugins: [
     new VueSSRServerPlugin(),
-    // new CleanWebpackPlugin(
-    //   ['*'],
-    //   { root: path.resolve(__dirname, '../dist/server') }
-    // ),
+    new CleanWebpackPlugin(
+      ['vue-ssr-server-bundle.json'],
+      { root: path.resolve(__dirname, '../dist') }
+    ),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
       'process.env.VUE_ENV': '"server"'
@@ -70,4 +70,4 @@ module.exports = merge(baseConfig, {
       },
     ]
   },
-})
+}

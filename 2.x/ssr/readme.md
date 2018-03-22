@@ -745,3 +745,7 @@ ssr的热重载方案没有文档,基本只能直接用[vue-hackernews-2.0](http
 
 node-fetch/isomorphic-fetch 不知道为何一直报错改用axios.而axios的拦截器据说在node端有内存泄漏的问题.
 
+store.registerModule本身规则比较奇怪,也可能是用法不对.
+store.registerModule只能用在服务器或者客户端渲染里,不能和客户端共享,暂不知晓原因.
+
+第一次computed发生在beforeMount之前.

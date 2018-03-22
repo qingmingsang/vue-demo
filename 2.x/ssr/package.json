@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "npm run dev",
+    "prod": "node server.js",
     "dev": "cross-env NODE_ENV=development node server.js",
     "webpack": "webpack-dev-server --config ./webpack/webpack.dev.js",
     "client": "webpack --progress --colors --config ./webpack/webpack.client.config.js",

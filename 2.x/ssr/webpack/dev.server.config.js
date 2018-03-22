@@ -7,7 +7,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const webpack = require('webpack');
 
-module.exports = merge(baseConfig, {
+module.exports = {
   // 将 entry 指向应用程序的 server entry 文件
   entry: './src/entry-server.js',
   // 这允许 webpack 以 Node 适用方式(Node-appropriate fashion)处理动态导入(dynamic import)，
@@ -57,4 +57,4 @@ module.exports = merge(baseConfig, {
       },
     ]
   },
-})
+}

@@ -3,6 +3,8 @@
       <router-link :to="{ name: 'item'}">to item page</router-link>
       <br>
       {{hello}}
+      <br>
+      {{goodbye}}
     </div>
 </template>
 
@@ -10,11 +12,15 @@
 
 export default {
   mounted() {
-    this.$store.dispatch('hello');
+    this.$store.dispatch('home1/hello');
+    this.$store.dispatch('home2/goodbye');
   },
   computed: {
     hello() {
-      return this.$store.state.hello
+      return this.$store.state.home1.hello
+    },
+    goodbye() {
+      return this.$store.state.home2.goodbye
     }
   }
 }

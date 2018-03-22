@@ -9,7 +9,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 module.exports = merge(baseConfig, {
   entry: {
     //noInfo=true为不在浏览器console显示打印
-    hmr: 'webpack-hot-middleware/client?noInfo=true&timeout=600000',
+    hmr: 'webpack-hot-middleware/client?timeout=600000',
     app: './src/entry-client.js'
   },
   output: {
@@ -63,6 +63,6 @@ module.exports = merge(baseConfig, {
   plugins: [
     new VueSSRClientPlugin(),
     new webpack.NamedModulesPlugin(),
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
   ]
 })

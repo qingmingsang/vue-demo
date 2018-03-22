@@ -11,7 +11,7 @@ module.exports = merge(baseConfig, {
   output: {
     filename: '[name].[chunkhash:8].bundle.js',
     chunkFilename: '[name].[chunkhash:8].chunk.js',
-    path: path.resolve(__dirname, '../dist/client')
+    path: path.resolve(__dirname, '../dist')
   },
   module: {
     rules: [
@@ -72,12 +72,12 @@ module.exports = merge(baseConfig, {
     // 此插件在输出目录中
     // 生成 `vue-ssr-client-manifest.json`。
     new VueSSRClientPlugin(),
-    // new CleanWebpackPlugin(
-    //   ['*'],
-    //   {
-    //     root: path.resolve(__dirname, '../dist/client')
-    //   }
-    // ),
+    new CleanWebpackPlugin(
+      ['*'],
+      {
+        root: path.resolve(__dirname, '../dist')
+      }
+    ),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
       'process.env.VUE_ENV': '"client"'

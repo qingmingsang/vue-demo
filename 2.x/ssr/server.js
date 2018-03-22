@@ -154,6 +154,9 @@ app.get('/data', (req, res, next) => {
 app.get('/hello', function (req, res) {
   res.send('hello world')
 })
+app.get('/goodbye', function (req, res) {
+  res.send('goodbye world')
+})
 
 const { createBundleRenderer } = require('vue-server-renderer')
 
@@ -192,8 +195,10 @@ function render(req, res) {
   })
 }
 
+app.use(express.static('dist'));
+
 if (process.env.NODE_ENV == 'development') {
-  app.use(express.static('dist'));
+  //app.use(express.static('dist'));
 
   // In development: setup the dev server with watch and hot-reload,
   // and create a new renderer on bundle / index template update.
@@ -209,15 +214,14 @@ if (process.env.NODE_ENV == 'development') {
     readyPromise.then(() => render(req, res))
   })
 } else {
-  app.use(express.static('dist/client'));
 
-  const serverBundle = require('./dist/server/vue-ssr-server-bundle.json')
-  const clientManifest = require('./dist/client/vue-ssr-client-manifest.json')
+  const serverBundle = require('./dist/vue-ssr-server-bundle.json');
+  const clientManifest = require('./dist/vue-ssr-client-manifest.json');
 
   renderer = createRenderer(serverBundle, {
     template,
     clientManifest
-  })
+  });
   // 在服务器处理函数中……
   app.get('*', render)
 }
